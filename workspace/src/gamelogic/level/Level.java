@@ -191,13 +191,64 @@ public class Level {
 			camera.update(tslf);
 		}
 	}
-	
-	
+
 	//#############################################################################################################
 	//Your code goes here! 
-	//Please make sure you read the rubric/directions carefully and implement the solution recursively!
+	//pre conditons: map is usable and initial clal to fullness is from zero to three
+	//post conditions: water go BRRRRRRRRR, recusion has stopped
 	private void water(int col, int row, Map map, int fullness) {
-		
+		//determines what image to use for the water
+			String size = "";
+		if(fullness==1){
+			size = "Quarter_water";
+		}
+		if(fullness==0){
+			size = "Falling_water";
+		}
+		if(fullness==2){
+			size = "Half_water";
+		}
+		if(fullness==3){
+			size = "Full_water";
+		}
+		Water w = new Water (col, row, tileSize, tileset.getImage(size), this ,fullness);
+		map.addTile(col, row, w);
+		//if the space bellow is empty for two block lengths add falling water
+		if(row+2 < map.getTiles()[0].length &&!(map.getTiles()[col][row+2] instanceof SolidTile)&&!(map.getTiles()[col][row+1] instanceof Water)&&!(map.getTiles()[col][row+1] instanceof SolidTile)){
+			water(col, row+1, map, 0);
+		}
+		else if(row+2 < map.getTiles()[0].length &&!(map.getTiles()[col][row+1] instanceof SolidTile)&&!(map.getTiles()[col][row+1] instanceof Water)){
+			water(col, row+1, map, 3);
+		}
+		//this else if checks to go left and right
+		else if(row+1 < map.getTiles()[0].length&&(map.getTiles()[col][row+1] instanceof SolidTile)){
+			//this checks to go left
+			if(col>0 && !(map.getTiles()[col-1][row] instanceof SolidTile)&& !(map.getTiles()[col-1][row] instanceof Water)){
+				if(fullness==3){
+					water(col-1, row, map, 2);
+				}
+				else{
+					water(col-1, row, map, 1);
+				}
+			}
+			//checks right
+			if(col<map.getTiles().length && !(map.getTiles()[col+1][row] instanceof SolidTile)&& !(map.getTiles()[col+1][row] instanceof Water)){
+				if(fullness==3){
+					water(col+1, row, map, 2);
+				}
+				else{
+					water(col+1, row, map, 1);
+				}
+			}
+		}
+		//else if(not solid below && is not at max(lowest point)){call water(col, row-1,map, fullness 3) }
+		/*else{
+			if(there is no block to the left of the current col and row && edge of map is not to the left){call water(col-1, row, map,1(for now) )}
+			if(there is no block to the right of the current col and row && edge of map is not to the right){call water(col+1, row, map,1(for now) )}
+		}
+
+*/
+
 	}
 
 
