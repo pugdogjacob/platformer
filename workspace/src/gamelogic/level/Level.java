@@ -447,7 +447,7 @@ public class Level {
 	}
 	public boolean inWater = false;
 	public void waterSpeed(){
-		if(){
+		if(true){
 			
 		}
 
