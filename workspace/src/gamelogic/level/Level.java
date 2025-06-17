@@ -183,6 +183,34 @@ public class Level {
 					onPlayerDeath();
 				}
 			}
+			boolean touchWater = false ;
+			for(Tile[] tiles: map.getTiles()){
+				for(Tile t: tiles){
+					if(t instanceof Water){
+						if(t.getHitbox().isIntersecting(player.getHitbox())){
+							touchWater = true;							
+						}
+					
+					}
+				}
+			}
+			if(touchWater){
+				player.walkSpeed = 100;
+			}
+			else{
+				player.walkSpeed = 400;
+			}
+
+			for(Tile[] tiles: map.getTiles()){
+				for(Tile t: tiles){
+					if(t instanceof Gas){
+						if(t.getHitbox().isIntersecting(player.getHitbox())){
+							player.setPositionUp();
+						}
+					
+					}
+				}
+			}
 
 			// Update the map
 			map.update(tslf);

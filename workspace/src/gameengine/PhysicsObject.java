@@ -183,4 +183,11 @@ public class PhysicsObject extends GameObject{
 	public Level getLevel() {
 		return level;
 	}
-}
+public void setPositionUp(){
+		position.y -=100;
+		movementVector.x = 0;
+		movementVector.y = 0;
+		}
+	}
+	
+
