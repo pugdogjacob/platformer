@@ -187,6 +187,7 @@ public void setPositionUp(){
 		position.y -=100;
 		movementVector.x = 0;
 		movementVector.y = 0;
+		hitbox.update();
 		}
 	}
 	

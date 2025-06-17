@@ -15,6 +15,9 @@ public class Player extends PhysicsObject{
 	public float jumpPower = 1350;
 
 	private boolean isJumping = false;
+	private boolean secondJump = false;
+	private boolean letgo = true;
+	public boolean powerupused = false;
 
 	public Player(float x, float y, Level level) {	
 		super(x, y, level.getLevelData().getTileSize(), level.getLevelData().getTileSize(), level);
@@ -33,13 +36,22 @@ public class Player extends PhysicsObject{
 		if(PlayerInput.isRightKeyDown()) {
 			movementVector.x = +walkSpeed;
 		}
-		if(PlayerInput.isJumpKeyDown() && !isJumping) {
-			movementVector.y = -jumpPower;
-			isJumping = true;
+		if(PlayerInput.isJumpKeyDown()) {
+			if(!isJumping){
+				movementVector.y = -jumpPower;
+				isJumping = true;
+				letgo = false;
+			}else if(!secondJump && letgo && powerupused){
+				movementVector.y = -jumpPower;
+				secondJump = true;
+				letgo= false;
+			}
+		}else{
+			letgo = true;
 		}
 		
 		isJumping = true;
-		if(collisionMatrix[BOT] != null) isJumping = false;
+		if(collisionMatrix[BOT] != null) {isJumping = false; secondJump= false;}
 	}
 
 	@Override

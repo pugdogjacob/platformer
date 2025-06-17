@@ -16,6 +16,7 @@ import gamelogic.tiledMap.Map;
 import gamelogic.tiles.Flag;
 import gamelogic.tiles.Flower;
 import gamelogic.tiles.Gas;
+import gamelogic.tiles.Powerup;
 import gamelogic.tiles.SolidTile;
 import gamelogic.tiles.Spikes;
 import gamelogic.tiles.Tile;
@@ -118,6 +119,9 @@ public class Level {
 					tiles[x][y] = new Water(xPosition, yPosition, tileSize, tileset.getImage("Half_water"), this, 2);
 				else if (values[x][y] == 21)
 					tiles[x][y] = new Water(xPosition, yPosition, tileSize, tileset.getImage("Quarter_water"), this, 1);
+				else if(values[x][y]==22){
+					tiles[x][y] = new Powerup((float)xPosition, (float)yPosition, tileSize, GameResources.powerup, false, this);
+				}
 			}
 
 		}
@@ -173,6 +177,17 @@ public class Level {
 						addGas(flowers.get(i).getCol(), flowers.get(i).getRow(), map, 20, new ArrayList<Gas>());
 					flowers.remove(i);
 					i--;
+				}
+			}
+
+			for(int r = 0; r<map.getTiles()[0].length; r++){
+				for(int c = 0; c<map.getTiles().length; c++){
+					if(map.getTiles()[c][r] instanceof Powerup){
+						if(player.getHitbox().isIntersecting(map.getTiles()[c][r].getHitbox())){
+							map.getTiles()[c][r]= new Tile(c*tileSize, r*tileSize, tileSize, null, false, this);
+							player.powerupused = true;
+						}
+					}
 				}
 			}
 
